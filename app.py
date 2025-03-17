@@ -13,16 +13,6 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from dotenv import load_dotenv
 
-load_dotenv('./venv/.env')
-
-# Hugging Face
-os.environ["HF_TOKEN"] = os.getenv('HF_TOKEN')
-embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-
-# GROQ
-os.environ['GROQ_API_KEY'] = os.getenv("GROQ_API_KEY")
-groq_api_key = os.getenv("GROQ_API_KEY")
-
 # Tools
 api_wrapper_wiki = WikipediaAPIWrapper(top_k_results=1, doc_content_chars_max=250)
 wiki = WikipediaQueryRun(api_wrapper=api_wrapper_wiki)
@@ -41,7 +31,12 @@ Try more LangChain 🤝 Streamlit Agent examples at [github.com/langchain-ai/str
 
 # Side bar settings
 st.sidebar.title('Settings')
-api_key = st.sidebar.text_input("Enter your Open AI API Key: ", type="password")
+groq_api_key = st.sidebar.text_input("Enter your Groq API Key: ", type="password")
+#st.secrets['GROQ_API_KEY']
+
+if not groq_api_key:
+    st.info("Please enter the Groq API Key to continue.")
+    st.stop()
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = [
