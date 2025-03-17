@@ -22,7 +22,6 @@ arxiv = ArxivQueryRun(api_wrapper=api_wrapper_arxiv)
 
 search = DuckDuckGoSearchRun(name="Search")
 
-
 # App
 st.title("🔎 LangChain - Chat with search")
 """
